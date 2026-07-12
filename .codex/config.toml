@@ -1,0 +1,44 @@
+#:schema https://developers.openai.com/codex/config-schema.json
+
+# Project-scoped Codex config for this GTM repo. Codex loads this only for
+# trusted projects. Personal defaults still live in ~/.codex/config.toml.
+#
+# Codex reads AGENTS.md at the repo root for the full contract (same file
+# Claude Code and Cursor read). This file carries the machine-enforceable
+# baseline: a conservative sandbox and the project MCP server.
+
+# Conservative baseline: Codex may edit files in the workspace but must ask
+# before anything that reaches outside it. This is the Codex equivalent of the
+# "no local deploy" guardrail: `cargo-ai cdk deploy` needs network, so it
+# surfaces an approval prompt rather than running silently. Deploys still only
+# happen from CI on merge to main.
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
+
+[sandbox_workspace_write]
+# The repo needs outbound network for npm installs and `cargo-ai cdk plan`
+# (which talks to the Cargo API). Keep writes scoped to the workspace.
+network_access = true
+
+# Streamable HTTP MCP requires the rmcp client, and this flag must sit above
+# every [mcp_servers.*] table.
+experimental_use_rmcp_client = true
+
+# Same Cargo MCP server that .mcp.json (Claude Code) and .cursor/mcp.json
+# (Cursor) point at. Export CARGO_API_KEY in your shell before launching Codex.
+[mcp_servers.cargo]
+url = "https://mcp.getcargo.io"
+bearer_token_env_var = "CARGO_API_KEY"
+
+# Deterministic guard: hard-block local `cargo-ai cdk deploy` / `cdk destroy`.
+# This is the Codex counterpart to the Claude Code deny list and the Cursor
+# beforeShellExecution hook. Codex requires you to review and trust this hook
+# once via `/hooks` before it runs (its script hash is recorded on trust).
+[[hooks.PreToolUse]]
+matcher = "^Bash$"
+
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = '/usr/bin/python3 "$(git rev-parse --show-toplevel)/.codex/hooks/deny-local-deploy.py"'
+timeout = 10
+statusMessage = "Checking for local cdk deploy"

@@ -1,0 +1,67 @@
+name: cargo deploy
+
+on:
+  push:
+    branches: [main]
+    paths: ["infra/**"]
+  workflow_dispatch:
+
+# One deploy at a time, never cancelled mid-flight: the committed state file
+# is the reconcile ledger and a cancelled deploy would strand it.
+concurrency:
+  group: cargo-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Skip cleanly until the repo is wired to a workspace. The secrets
+      # context is not available in a job-level `if`, hence the guard step.
+      - name: check CARGO_API_KEY
+        id: guard
+        env:
+          CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
+        run: |
+          if [ -z "$CARGO_API_KEY" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "CARGO_API_KEY secret is not set; skipping deploy. Add it in Settings > Secrets to enable deploys on merge." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.guard.outputs.enabled == 'true'
+        uses: actions/checkout@v4
+        with:
+          # Pull latest before pushing state back, in case main moved.
+          fetch-depth: 0
+      - if: steps.guard.outputs.enabled == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: infra/package-lock.json
+      - if: steps.guard.outputs.enabled == 'true'
+        run: npm ci
+        working-directory: infra
+      - name: cargo-ai cdk deploy
+        if: steps.guard.outputs.enabled == 'true'
+        working-directory: infra
+        run: npx cargo-ai cdk deploy --yes
+        env:
+          CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
+      - name: commit state back
+        if: steps.guard.outputs.enabled == 'true'
+        run: |
+          git config user.name "cargo-deploy[bot]"
+          git config user.email "cargo-deploy@users.noreply.github.com"
+          git add infra/cargo.state.json
+          if git diff --cached --quiet; then
+            echo "state unchanged"
+          else
+            git commit -m "chore: update cargo.state.json after deploy [skip ci]"
+            git pull --rebase origin main
+            git push origin main
+          fi

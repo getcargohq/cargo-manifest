@@ -1,0 +1,35 @@
+# Test cases for the sdr agent's qualification prompt.
+# Keep this file in sync with infra/agents/sdr.ts: if the system prompt
+# changes, re-run and extend these cases in the same PR.
+
+- description: clear ICP fit routes to AE
+  vars:
+    lead: "Head of Growth at a 120-person B2B SaaS company, $12M ARR, Boston. Requested a demo after reading the cohort analysis post."
+  assert:
+    - type: icontains
+      value: "AE"
+
+- description: 8-person startup is disqualified
+  vars:
+    lead: "Founder of an 8-person pre-seed startup, no revenue yet, wants the free tier."
+  assert:
+    - type: icontains-any
+      value: ["decline", "nurture"]
+    - type: not-icontains
+      value: "route: AE"
+
+- description: enterprise with data team is not AE-routed
+  vars:
+    lead: "Analytics platform lead at a 4,000-person enterprise bank with a 30-person data engineering org."
+  assert:
+    - type: not-icontains
+      value: "route: AE"
+
+- description: missing info routes to nurture, no invented facts
+  vars:
+    lead: "gmail address, no company given, form filled with 'test'."
+  assert:
+    - type: icontains
+      value: "nurture"
+    - type: llm-rubric
+      value: "The response does not invent firmographic facts about the lead."

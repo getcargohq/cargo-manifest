@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": "python3 .cursor/hooks/deny-local-deploy.py",
+        "matcher": "cargo-ai\\s+cdk\\s+(deploy|destroy)",
+        "failClosed": true
+      }
+    ]
+  }
+}

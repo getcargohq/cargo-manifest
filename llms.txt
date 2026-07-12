@@ -1,0 +1,30 @@
+# Manifest
+
+> A free, open-source template for running go-to-market the way engineers run software: everything a company knows, everything it is trying to do, and everything that runs in production, in one repository the team owns and AI agents can operate. Built by Cargo (https://getcargo.io). MIT licensed.
+
+Manifest structures a GTM organization as a codebase. Knowledge lives in markdown with a confidence ladder, the live revenue engine is declared as code and deployed to a Cargo workspace, agent procedures are versioned skills, and every run is archived with the outcome it produced. Agents read the repo before acting, so they reason from the company's own knowledge instead of generic priors.
+
+## Layers
+
+- [AGENTS.md](AGENTS.md): the agent contract. Read order, layer rules, conventions. Every agent reads this first.
+- [plan/](plan/README.md): the destination. The one goal, the strategy, and the outcomes that must become true. Each outcome names what it becomes in infra/.
+- [context/](context/README.md): what the company knows. Eleven domains (global, icp, persona, jtbd, alternative, objection, proof, signal, motion, client, insight) as markdown with YAML frontmatter and a knowledge graph.
+- [initiatives/](initiatives/README.md): bounded efforts with owners, deadlines, and success criteria checkable as true or false.
+- [cadence/](cadence/README.md): the operating rhythm. Weekly plans, daily logs, and a carryover file that keeps dropped balls visible.
+- [infra/](infra/README.md): what runs in production. A Cargo CDK project: connectors, models, segments, tools, agents, plays, MCP servers, apps, workers. Previewed as a diff on every PR, deployed on merge.
+- [evals/](evals/promptfooconfig.yaml): prompt regression tests that gate agent changes in CI.
+- [outputs/](outputs/README.md): the append-only archive of what happened, each entry tagged with the outcome it produced.
+
+## Conventions
+
+- Confidence ladder: proof, signal, and insight files carry `confidence: hypothesis | validated | proven`. Outreach motions may cite only validated or proven knowledge; the linter enforces it.
+- Outreach motions declare a hypothesis (segment, angle, trigger, expected reply rate) before any copy exists. Enrichment, scoring, routing, and signal motions are not campaigns and are exempt.
+- A claim enters context after it shows up twice, independently. Once is an anecdote.
+- Outputs entries carry an `outcome:` field, so motions are ranked by results rather than opinions.
+- Absolute dates everywhere. Outputs are append-only. Major context rewrites archive the prior version.
+
+## Cargo
+
+- [Cargo](https://getcargo.io): the platform the infra layer deploys to. Unifies GTM data into clean account and contact tables, then runs enrichment, scoring, routing, a context graph, and AI agents on top.
+- [Cargo docs](https://docs.getcargo.ai): CLI, CDK, agents, connectors.
+- [Cookbooks](https://github.com/getcargohq/cargo-cookbooks): prebuilt recipes (deduplication, contact sourcing, routing, meeting prep) that scaffold straight into infra/.

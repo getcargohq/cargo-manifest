@@ -1,0 +1,19 @@
+{
+  "name": "__APP_NAME__-infra",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "types": "cargo-ai cdk types",
+    "plan": "cargo-ai cdk plan",
+    "deploy": "cargo-ai cdk deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cargo-ai/cdk": "^1.0.20",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@cargo-ai/cli": "^1.0.31",
+    "typescript": "^5.3.2"
+  }
+}

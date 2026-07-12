@@ -1,0 +1,63 @@
+name: typecheck
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "infra/**"
+      - "tsconfig.json"
+      - "package.json"
+      - "package-lock.json"
+
+permissions:
+  contents: read
+
+jobs:
+  # Scripts typecheck needs no workspace: always run it.
+  scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit
+
+  # Infra typecheck always runs: no workspace needed. Generated types
+  # (`cargo-ai cdk types`) sharpen extractor/connector config checking, but they
+  # are optional (configs fall back to loose records without them), so the key
+  # only decides whether we generate them, never whether we typecheck. A repo
+  # with no workspace connected still gets its infra compiled on every PR.
+  infra:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: infra/package-lock.json
+      - run: npm ci
+        working-directory: infra
+      - name: check CARGO_API_KEY
+        id: guard
+        env:
+          CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
+        run: |
+          if [ -z "$CARGO_API_KEY" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "CARGO_API_KEY secret is not set; typechecking infra without generated workspace types. Add it in Settings > Secrets for stricter config checking." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: generate workspace types
+        if: steps.guard.outputs.enabled == 'true'
+        working-directory: infra
+        run: npx cargo-ai cdk types
+        env:
+          CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
+      - name: tsc --noEmit
+        working-directory: infra
+        run: npx tsc --noEmit

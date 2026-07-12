@@ -1,0 +1,58 @@
+name: cargo plan
+
+on:
+  pull_request:
+    paths: ["infra/**"]
+
+concurrency:
+  group: cargo-plan-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      # Skip cleanly until the repo is wired to a workspace. The secrets
+      # context is not available in a job-level `if`, hence the guard step.
+      - name: check CARGO_API_KEY
+        id: guard
+        env:
+          CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
+        run: |
+          if [ -z "$CARGO_API_KEY" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "CARGO_API_KEY secret is not set; skipping plan. Add it in Settings > Secrets to get plan diffs on PRs." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.guard.outputs.enabled == 'true'
+        uses: actions/checkout@v4
+      - if: steps.guard.outputs.enabled == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            infra/package-lock.json
+      - if: steps.guard.outputs.enabled == 'true'
+        run: npm ci
+      - if: steps.guard.outputs.enabled == 'true'
+        run: npm ci
+        working-directory: infra
+      - name: cargo-ai cdk plan
+        if: steps.guard.outputs.enabled == 'true'
+        working-directory: infra
+        run: npx cargo-ai cdk plan 2>&1 | tee ../plan-output.txt
+        env:
+          CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
+      - name: comment plan on PR
+        if: steps.guard.outputs.enabled == 'true'
+        run: npx tsx scripts/ci/comment-plan.ts plan-output.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
