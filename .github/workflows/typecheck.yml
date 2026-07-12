@@ -1,0 +1,64 @@
+name: typecheck
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "infra/**"
+      - "tsconfig.json"
+      - "package.json"
+      - "package-lock.json"
+
+permissions:
+  contents: read
+
+jobs:
+  # Scripts typecheck needs no workspace: always run it.
+  scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit
+
+  # Infra typecheck needs per-workspace types (`cargo-ai cdk types`), which
+  # require an API key. Skip cleanly until the repo is wired to a workspace.
+  infra:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check CARGO_API_KEY
+        id: guard
+        env:
+          CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
+        run: |
+          if [ -z "$CARGO_API_KEY" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "CARGO_API_KEY secret is not set; skipping infra typecheck. Add it in Settings > Secrets to typecheck infra against generated workspace types." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.guard.outputs.enabled == 'true'
+        uses: actions/checkout@v4
+      - if: steps.guard.outputs.enabled == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: infra/package-lock.json
+      - if: steps.guard.outputs.enabled == 'true'
+        run: npm ci
+        working-directory: infra
+      - name: generate workspace types
+        if: steps.guard.outputs.enabled == 'true'
+        working-directory: infra
+        run: npx cargo-ai cdk types
+        env:
+          CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
+      - name: tsc --noEmit
+        if: steps.guard.outputs.enabled == 'true'
+        working-directory: infra
+        run: npx tsc --noEmit

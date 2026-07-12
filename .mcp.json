@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "cargo": {
+      "type": "http",
+      "url": "https://mcp.getcargo.io",
+      "headers": { "Authorization": "Bearer ${CARGO_API_KEY}" }
+    }
+  }
+}

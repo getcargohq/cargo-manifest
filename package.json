@@ -1,0 +1,19 @@
+{
+  "name": "__APP_NAME__",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint:context": "tsx scripts/ci/lint-context.ts",
+    "lint:copy": "tsx scripts/ci/check-copy.ts",
+    "eval": "promptfoo eval -c evals/promptfooconfig.yaml",
+    "plan": "npm --prefix infra run plan",
+    "typecheck": "tsc --noEmit && npm --prefix infra run typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "promptfoo": "^0.115.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.3.2",
+    "yaml": "^2.6.0"
+  }
+}

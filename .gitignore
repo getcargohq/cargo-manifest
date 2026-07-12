@@ -1,0 +1,18 @@
+node_modules/
+.env
+.env.*
+!.env.example
+
+# promptfoo local cache
+.promptfoo/
+
+# Personal space: never shared, never reviewed. See scratch/README.md.
+scratch/*
+!scratch/README.md
+
+# Per-agent personal overrides (shared config is committed, local is not).
+CLAUDE.local.md
+.claude/settings.local.json
+
+# OS noise
+.DS_Store

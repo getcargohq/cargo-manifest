@@ -1,0 +1,43 @@
+---
+description: Manifest GTM repo guardrails. Layer boundaries, deploy safety, and copy style for any agent working in this repo.
+alwaysApply: true
+---
+
+# Manifest guardrails (Cursor)
+
+`AGENTS.md` at the repo root is the canonical contract and Cursor loads it
+automatically. This rule restates only the hard guardrails so they survive as
+an always-applied Cursor rule, matching the deploy denials Claude Code enforces
+in `.claude/settings.json`.
+
+## Never do these
+
+- Never run `cargo-ai cdk deploy` or `cargo-ai cdk destroy` locally. Deploys
+  happen from CI on merge to main only. If asked to deploy locally, refuse and
+  point at the PR workflow.
+- Never edit `infra/cargo.state.json` by hand or resolve its merge conflicts
+  manually. It is machine-owned; re-run the plan/deploy instead.
+- Never commit secret values. Secrets come from the environment via `secret()`
+  and `env()`.
+
+## Layer boundaries
+
+- Dependency direction is strict: `infra/` reads `context/`, skills read
+  everything, `outputs/` is written by everything and read only as memory.
+  Nothing depends on `outputs/`.
+- Put each change in its layer: knowledge in `context/`, production wiring in
+  `infra/`, repo procedures in `.claude/skills/`, one-off ops in `scripts/`,
+  regression suites in `evals/`, run archives in `outputs/`.
+- New plays go through the `new-play` skill so context, infra, and evals ship
+  together.
+
+## Copy style
+
+- No em dashes anywhere. Use colons, parentheses, commas, or split the sentence.
+
+## Before a PR
+
+- `npm run lint:context` if you touched `context/`.
+- `npm run typecheck` if you touched `infra/` or `scripts/`.
+- Archive any real-world result under `outputs/YYYY-MM-DD-<slug>/` before
+  finishing. Never rewrite an existing entry.

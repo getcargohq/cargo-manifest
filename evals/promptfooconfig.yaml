@@ -1,0 +1,17 @@
+# Prompt regression tests. One suite per agent whose prompt you own.
+# Run locally: npm run eval (needs OPENAI_API_KEY).
+# The provider here approximates the deployed agent (same model, same system
+# prompt) so a failing eval predicts a failing agent.
+description: Acme GTM prompt suites
+
+providers:
+  - id: openai:gpt-4o
+    label: sdr
+    config:
+      temperature: 0
+
+prompts:
+  - file://sdr/prompt.txt
+
+tests:
+  - file://sdr/cases.yaml

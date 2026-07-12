@@ -1,0 +1,7 @@
+{
+  "$schema": "https://getcargo.io/schemas/manifest.v1.json",
+  "name": "__APP_NAME__",
+  "framework": "0.1.0",
+  "preset": "standard",
+  "modules": {}
+}
