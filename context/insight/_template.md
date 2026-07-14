@@ -18,3 +18,5 @@ _So what. Why this matters for how we sell._
 ## Use in messaging
 
 _Where this shows up: posts, emails, decks, demos._
+
+CI verification touch, reverted before merge.

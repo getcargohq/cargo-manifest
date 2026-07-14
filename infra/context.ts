@@ -7,3 +7,5 @@ import { defineContext } from "@cargo-ai/cdk";
 // v0.1 contract: this push is one-way. The git repo is the source of truth;
 // treat runtime context edits made by agents in the workspace as ephemeral.
 export const context = defineContext({ dir: "../context" });
+
+// CI verification touch, reverted before merge.
