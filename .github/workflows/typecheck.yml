@@ -25,11 +25,22 @@ jobs:
       - run: npm ci
       - run: npx tsc --noEmit
 
-  # Infra typecheck needs per-workspace types (`cargo-ai cdk types`), which
-  # require an API key. Skip cleanly until the repo is wired to a workspace.
+  # Infra typecheck always runs: no workspace needed. Generated types
+  # (`cargo-ai cdk types`) sharpen extractor/connector config checking, but they
+  # are optional (configs fall back to loose records without them), so the key
+  # only decides whether we generate them, never whether we typecheck. A repo
+  # with no workspace connected still gets its infra compiled on every PR.
   infra:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: infra/package-lock.json
+      - run: npm ci
+        working-directory: infra
       - name: check CARGO_API_KEY
         id: guard
         env:
@@ -37,21 +48,10 @@ jobs:
         run: |
           if [ -z "$CARGO_API_KEY" ]; then
             echo "enabled=false" >> "$GITHUB_OUTPUT"
-            echo "CARGO_API_KEY secret is not set; skipping infra typecheck. Add it in Settings > Secrets to typecheck infra against generated workspace types." >> "$GITHUB_STEP_SUMMARY"
+            echo "CARGO_API_KEY secret is not set; typechecking infra without generated workspace types. Add it in Settings > Secrets for stricter config checking." >> "$GITHUB_STEP_SUMMARY"
           else
             echo "enabled=true" >> "$GITHUB_OUTPUT"
           fi
-      - if: steps.guard.outputs.enabled == 'true'
-        uses: actions/checkout@v4
-      - if: steps.guard.outputs.enabled == 'true'
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-          cache-dependency-path: infra/package-lock.json
-      - if: steps.guard.outputs.enabled == 'true'
-        run: npm ci
-        working-directory: infra
       - name: generate workspace types
         if: steps.guard.outputs.enabled == 'true'
         working-directory: infra
@@ -59,6 +59,5 @@ jobs:
         env:
           CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
       - name: tsc --noEmit
-        if: steps.guard.outputs.enabled == 'true'
         working-directory: infra
         run: npx tsc --noEmit
