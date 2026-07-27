@@ -1,14 +1,13 @@
 # Prompt regression tests. One suite per agent whose prompt you own.
-# Run locally: npm run eval (needs OPENAI_API_KEY).
+# Run locally: npm run eval (needs ANTHROPIC_API_KEY).
 # The provider here approximates the deployed agent (same model, same system
-# prompt) so a failing eval predicts a failing agent.
+# prompt) so a failing eval predicts a failing agent. Keep it in sync with the
+# agent's languageModel in infra/agents/.
 description: Acme GTM prompt suites
 
 providers:
-  - id: openai:gpt-4o
+  - id: anthropic:messages:claude-sonnet-5
     label: sdr
-    config:
-      temperature: 0
 
 prompts:
   - file://sdr/prompt.txt

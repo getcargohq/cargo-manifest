@@ -52,6 +52,12 @@ jobs:
         run: npx cargo-ai cdk deploy --yes
         env:
           CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
+      # This pushes cargo.state.json straight to main. If main is a protected
+      # branch (the PR-and-review workflow in AGENTS.md implies it is), that
+      # push is rejected and the reconcile ledger is stranded after the first
+      # real deploy. Before enabling deploys, let this bot bypass protection:
+      # add cargo-deploy[bot] (or a PAT stored as a secret and checked out
+      # above) to the branch-protection allowlist. See infra/README.md.
       - name: commit state back
         if: steps.guard.outputs.enabled == 'true'
         run: |

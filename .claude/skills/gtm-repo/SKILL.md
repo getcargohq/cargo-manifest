@@ -13,6 +13,7 @@ outputs.
 
 | You want to... | Touch |
 | --- | --- |
+| Turn this template into your company's repo (first run) | the `seed-repo` skill |
 | Set the goal, the forecast, or what we are not doing | `plan/` |
 | Start a bounded effort with a deadline and success criteria | `initiatives/<name>.md` |
 | Plan the week, log the day, track a dropped ball | `cadence/` |

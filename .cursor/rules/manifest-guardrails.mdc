@@ -28,8 +28,8 @@ in `.claude/settings.json`.
 - Put each change in its layer: knowledge in `context/`, production wiring in
   `infra/`, repo procedures in `.claude/skills/`, one-off ops in `scripts/`,
   regression suites in `evals/`, run archives in `outputs/`.
-- New plays go through the `new-play` skill so context, infra, and evals ship
-  together.
+- New motions go through the `new-motion` skill so context, infra, and evals
+  ship together.
 
 ## Copy style
 

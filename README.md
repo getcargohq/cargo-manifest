@@ -150,8 +150,9 @@ cd acme-gtm && npm install
 claude .   # or cursor, or any agent that reads AGENTS.md
 ```
 
-Then tell your agent: "Read AGENTS.md and help me seed this repo for my company."
-It will interview you and fill the layers.
+Then tell your agent: "Use the seed-repo skill to seed this repo for my
+company." It interviews you in a few rounds and fills the layers, then stops so
+you can review before anything ships.
 
 Have a Cargo workspace? Wire the engine: `cd infra && npx cargo-ai cdk plan`. No
 workspace yet? Everything except `infra/` works standalone today; add the

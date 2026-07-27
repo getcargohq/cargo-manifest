@@ -4,8 +4,10 @@ This repository is Acme's GTM engine: knowledge, infrastructure, and run history
 for the whole go-to-market, managed as code. It follows the Manifest framework
 conventions (Manifest, by Cargo).
 
-Replace "Acme" with your company everywhere. Search for `ACME:` markers to find
-every placeholder that needs your input.
+On first run, use the `seed-repo` skill: it interviews you and replaces every
+Acme placeholder and the package-name slug with your company. To do it by hand,
+grep the repo for the Acme markers (each flags a spot that needs your input) and
+for the package-name placeholder in package.json.
 
 ## Layers
 

@@ -1,5 +1,6 @@
-# Prompt regression tests. Opt-in: set the OPENAI_API_KEY repo secret and
-# remove the `if: false` line to enable.
+# Prompt regression tests. Runs whenever an agent prompt or an eval suite
+# changes, gated on the ANTHROPIC_API_KEY repo secret: set it in
+# Settings > Secrets to turn the gate green, or the job skips cleanly.
 name: evals
 
 on:
@@ -13,16 +14,30 @@ permissions:
 
 jobs:
   evals:
-    # Delete this line once OPENAI_API_KEY is configured as a repo secret.
-    if: false
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      # The secrets context isn't available in a job-level `if`, so guard here.
+      - name: check ANTHROPIC_API_KEY
+        id: guard
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "ANTHROPIC_API_KEY secret is not set; skipping evals. Add it in Settings > Secrets to run prompt regression tests on PRs." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.guard.outputs.enabled == 'true'
+        uses: actions/checkout@v4
+      - if: steps.guard.outputs.enabled == 'true'
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
-      - run: npm run eval
+      - if: steps.guard.outputs.enabled == 'true'
+        run: npm ci
+      - if: steps.guard.outputs.enabled == 'true'
+        run: npm run eval
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

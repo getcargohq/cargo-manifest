@@ -20,6 +20,12 @@ npx cargo-ai cdk deploy   # CI only; local deploy is denied by convention
 - Secrets come from the environment via `secret()`; non-secret config via
   `env()`. Values never land in code, state, or git.
 - Deploys run from CI on merge to main (`.github/workflows/cargo-deploy.yml`).
+  That job pushes the updated `cargo.state.json` back to main. If main is
+  protected (it should be, since everything else lands via PR), give the
+  deploy bot a way past protection first: allow `cargo-deploy[bot]` to push, or
+  check out with a PAT stored as a secret and add that account to the
+  allowlist. Without it the first deploy succeeds but cannot commit its state,
+  and the ledger drifts from the live workspace.
 - Reference resources by imported handle, never by pasted UUID. Use the
   `*Ref("uuid")` helpers only for resources that live outside this repo.
 - Workflow bodies (`defineWorkflow`) are parsed and compiled to a node DAG,

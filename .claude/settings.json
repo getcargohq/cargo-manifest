@@ -9,7 +9,7 @@
     "allow": [
       "Bash(cargo-ai cdk plan*)",
       "Bash(cargo-ai cdk types*)",
-      "Bash(npm run lint:context*)",
+      "Bash(npm run lint*)",
       "Bash(npm run typecheck*)"
     ],
     "deny": [

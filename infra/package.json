@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@cargo-ai/cdk": "^1.0.20",
+    "@cargo-ai/cdk": "^1.0.28",
     "zod": "^4.4.3"
   },
   "devDependencies": {

@@ -7,5 +7,6 @@ update its suite under `../../evals/` in the same PR.
 
 Examples here: `sdr.ts` (the main agent that qualifies inbound leads, with an
 evaluator and an `evals/sdr/` suite) and `enricher.ts` (a focused sub-agent that
-verifies firmographic facts). Both use the adopted `openai` connector, so they
-deploy without an env var.
+verifies firmographic facts). Both use the adopted `anthropic` connector on
+`claude-sonnet-5`, so they deploy without an env var. Swap `connector` to
+`openai` (both are adopted) to run either agent on OpenAI instead.

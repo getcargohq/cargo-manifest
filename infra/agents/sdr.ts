@@ -1,7 +1,7 @@
 import { defineAgent } from "@cargo-ai/cdk";
 
+import { anthropic } from "../connectors/anthropic";
 import { hunter } from "../connectors/hunter";
-import { openai } from "../connectors/openai";
 import { agentsFolder } from "../folders/gtm";
 import { contacts } from "../models/contacts";
 import { enrich } from "../tools/enrich";
@@ -14,11 +14,11 @@ import { enricher } from "./enricher";
 //
 // The system prompt tells it to ground every claim in the context layer; the
 // context repo is deployed alongside (see ../context.ts). Prompt changes here
-// require updating evals/sdr/ (see the new-play skill).
+// require updating evals/sdr/ (see the new-motion skill).
 export const sdr = defineAgent("sdr", {
   color: "blue",
-  connector: openai,
-  languageModel: "gpt-4o",
+  connector: anthropic,
+  languageModel: "claude-sonnet-5",
   systemPrompt: [
     "You qualify inbound leads for Acme.",
     "Ground every judgment in the workspace context: the ICP definition, personas, and disqualifiers.",
