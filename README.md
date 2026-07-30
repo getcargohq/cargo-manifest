@@ -10,6 +10,9 @@ that AI agents can operate.
 Clone it, tell your AI agent to read it, and you have a revenue engine with a
 memory.
 
+New to the idea? Start with the full definition:
+[GTM as Code](https://www.getcargo.ai/gtm-as-code).
+
 ## The problem this solves
 
 Your GTM knowledge is scattered: the ICP lives in your head, the objection
