@@ -156,6 +156,16 @@ claude .   # or cursor, or any agent that reads AGENTS.md
 Then tell your agent: "Read AGENTS.md and help me seed this repo for my company."
 It will interview you and fill the layers.
 
-Have a Cargo workspace? Wire the engine: `cd infra && npx cargo-ai cdk plan`. No
-workspace yet? Everything except `infra/` works standalone today; add the
-execution layer at [getcargo.io](https://getcargo.io) when you're ready.
+Have a Cargo workspace? Wire the engine: `cd infra && npx cargo-ai cdk plan`.
+
+No workspace yet? Make one from the terminal. There is no separate sign-up step
+and no browser at any point: the first call emails a one-time code and exits,
+and the second creates the account and a workspace.
+
+```bash
+npx @cargo-ai/cli login --email you@company.com
+npx @cargo-ai/cli login --email you@company.com --code 123456
+```
+
+Everything except `infra/` also works standalone, so you can seed the repo first
+and wire the execution layer whenever you're ready.
