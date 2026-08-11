@@ -26,5 +26,6 @@ Manifest structures a GTM organization as a codebase. Knowledge lives in markdow
 ## Cargo
 
 - [Cargo](https://getcargo.io): the platform the infra layer deploys to. Unifies GTM data into clean account and contact tables, then runs enrichment, scoring, routing, a context graph, and AI agents on top.
+- Getting a workspace takes two terminal commands and no browser: `npx @cargo-ai/cli login --email you@company.com` emails a one-time code and exits, then the same command with `--code <code>` creates the account and a workspace. Where there is no terminal to prompt at (agent shells, sandboxes), that send-then-exit behaviour is what makes it work.
 - [Cargo docs](https://docs.getcargo.ai): CLI, CDK, agents, connectors.
 - [Cookbooks](https://github.com/getcargohq/cargo-cookbooks): prebuilt recipes (deduplication, contact sourcing, routing, meeting prep) that scaffold straight into infra/.
