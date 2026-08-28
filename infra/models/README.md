@@ -5,6 +5,7 @@ Tables the workspace operates on (`defineModel`). A model is either native
 connector-backed (`connector: <handle>` + an `extractSlug`, synced from a data
 source on a `schedule`). Plays, tools, agents, and segments all build on models.
 
-Examples here: `accounts.ts` and `contacts.ts`, both native (`defineAccount` /
-`defineContact`) so they deploy without a connector or env var. Each file
-comments the shape to switch to a connector-backed model when you want CRM sync.
+Start native (`defineAccount` / `defineContact`): those deploy without a
+connector or an env var, so you can have a working model before you have
+credentials for anything. Move to a connector-backed model when you want the
+CRM to be the source.

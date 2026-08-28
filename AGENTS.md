@@ -1,11 +1,13 @@
-# Acme GTM
+# __APP_NAME__ GTM
 
-This repository is Acme's GTM engine: knowledge, infrastructure, and run history
+This repository is __APP_NAME__'s GTM engine: knowledge, infrastructure, and run history
 for the whole go-to-market, managed as code. It follows the Manifest framework
 conventions (Manifest, by Cargo).
 
-Replace "Acme" with your company everywhere. Search for `ACME:` markers to find
-every placeholder that needs your input.
+The knowledge layers ship a worked example for a fictional company, Acme.
+Search for `ACME:` markers to find every file that is fiction and needs
+replacing with your own. `infra/` ships empty by design: add resources with
+`cargo-ai cdk add cookbook/<name>` or by writing them.
 
 ## Layers
 
