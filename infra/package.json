@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "types": "cargo-ai cdk types",
+    "info": "cargo-ai cdk info",
     "plan": "cargo-ai cdk plan",
     "deploy": "cargo-ai cdk deploy",
     "typecheck": "tsc --noEmit"
