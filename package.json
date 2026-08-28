@@ -8,7 +8,10 @@
     "lint:outputs": "tsx scripts/ci/lint-outputs.ts",
     "lint:copy": "tsx scripts/ci/check-copy.ts",
     "eval": "npx -y promptfoo@latest eval -c evals/promptfooconfig.yaml",
+    "types": "npm --prefix infra run types",
+    "info": "npm --prefix infra run info",
     "plan": "npm --prefix infra run plan",
+    "deploy": "npm --prefix infra run deploy",
     "typecheck": "tsc --noEmit && npm --prefix infra run typecheck"
   },
   "devDependencies": {
