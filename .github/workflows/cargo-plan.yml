@@ -36,18 +36,12 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: |
-            package-lock.json
-            infra/package-lock.json
       - if: steps.guard.outputs.enabled == 'true'
         run: npm ci
-      - if: steps.guard.outputs.enabled == 'true'
-        run: npm ci
-        working-directory: infra
+      # From the root: the CDK resolves the project to `infra/` itself.
       - name: cargo-ai cdk plan
         if: steps.guard.outputs.enabled == 'true'
-        working-directory: infra
-        run: npx cargo-ai cdk plan 2>&1 | tee ../plan-output.txt
+        run: npx cargo-ai cdk plan 2>&1 | tee plan-output.txt
         env:
           CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
       - name: comment plan on PR
