@@ -8,16 +8,21 @@
     "lint:outputs": "tsx scripts/ci/lint-outputs.ts",
     "lint:copy": "tsx scripts/ci/check-copy.ts",
     "eval": "npx -y promptfoo@latest eval -c evals/promptfooconfig.yaml",
-    "types": "npm --prefix infra run types",
-    "info": "npm --prefix infra run info",
-    "plan": "npm --prefix infra run plan",
-    "deploy": "npm --prefix infra run deploy",
-    "typecheck": "tsc --noEmit && npm --prefix infra run typecheck"
+    "types": "cargo-ai cdk types",
+    "info": "cargo-ai cdk info",
+    "plan": "cargo-ai cdk plan",
+    "deploy": "cargo-ai cdk deploy",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p infra"
   },
   "devDependencies": {
+    "@cargo-ai/cli": "^1.0.70",
     "@types/node": "^22.0.0",
     "tsx": "^4.19.0",
     "typescript": "^5.3.2",
     "yaml": "^2.6.0"
+  },
+  "dependencies": {
+    "@cargo-ai/cdk": "^1.0.56",
+    "zod": "^4.4.3"
   }
 }

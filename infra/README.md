@@ -4,13 +4,17 @@ What runs in production. A self-contained Cargo CDK project: every `.ts` file
 here declares a resource, and `cargo-ai cdk deploy` reconciles the workspace to
 match.
 
-## Commands (run from this directory)
+## Commands (run from the repo root)
+
+Dependencies install once, at the root. This directory has no package.json of
+its own: the CDK finds it by name.
 
 ```bash
 npm install
-npx cargo-ai cdk types    # generate per-workspace types into .cargo-ai/
-npx cargo-ai cdk plan     # read-only diff: code vs live workspace
-npx cargo-ai cdk deploy   # CI only; local deploy is denied by convention
+npm run types    # generate per-workspace types into .cargo-ai/
+npm run info     # what the project declares, offline
+npm run plan     # read-only diff: code vs live workspace
+npm run deploy   # CI only; local deploy is denied by convention
 ```
 
 ## Rules

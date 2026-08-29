@@ -5,5 +5,6 @@ models so an outside assistant (Claude Code, Cursor, a rep's assistant) can use
 the GTM stack. Same reference surface as an agent: list what it exposes by
 handle, with `{ ref, readOnly: true }` for read-only model access.
 
-Example here: `gtm.ts` exposes the `enrich` and `qualify-inbound` tools, the
-`sdr` agent, and the `accounts` and `contacts` models (read-only).
+One server is usually enough. Expose the handful of tools and models an
+outside agent actually needs rather than everything the workspace holds: this
+file is a permission boundary, not an index.

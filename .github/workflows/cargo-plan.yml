@@ -34,20 +34,18 @@ jobs:
       - if: steps.guard.outputs.enabled == 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
-          cache-dependency-path: |
-            package-lock.json
-            infra/package-lock.json
       - if: steps.guard.outputs.enabled == 'true'
         run: npm ci
-      - if: steps.guard.outputs.enabled == 'true'
-        run: npm ci
-        working-directory: infra
+      # From the root: the CDK resolves the project to `infra/` itself.
       - name: cargo-ai cdk plan
         if: steps.guard.outputs.enabled == 'true'
-        working-directory: infra
-        run: npx cargo-ai cdk plan 2>&1 | tee ../plan-output.txt
+        # pipefail so a failing plan fails the job: without it the exit
+        # status is tee's, and a broken plan would report green.
+        run: |
+          set -o pipefail
+          npx cargo-ai cdk plan 2>&1 | tee plan-output.txt
         env:
           CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
       - name: comment plan on PR
