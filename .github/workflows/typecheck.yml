@@ -16,8 +16,8 @@ permissions:
 jobs:
   # One install, one job: `npm run typecheck` compiles `scripts/` and `infra/`
   # against their own tsconfigs. Generated types (`cargo-ai cdk types`) sharpen
-  # extractor/connector config checking, but they are optional — configs fall
-  # back to loose records without them — so the key only decides whether we
+  # extractor/connector config checking, but they are optional (configs fall
+  # back to loose records without them), so the key only decides whether we
   # generate them, never whether we typecheck. A repo with no workspace
   # connected still gets everything compiled on every PR.
   typecheck:

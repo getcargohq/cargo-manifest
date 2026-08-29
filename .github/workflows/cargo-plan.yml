@@ -41,7 +41,11 @@ jobs:
       # From the root: the CDK resolves the project to `infra/` itself.
       - name: cargo-ai cdk plan
         if: steps.guard.outputs.enabled == 'true'
-        run: npx cargo-ai cdk plan 2>&1 | tee plan-output.txt
+        # pipefail so a failing plan fails the job: without it the exit
+        # status is tee's, and a broken plan would report green.
+        run: |
+          set -o pipefail
+          npx cargo-ai cdk plan 2>&1 | tee plan-output.txt
         env:
           CARGO_API_KEY: ${{ secrets.CARGO_API_KEY }}
       - name: comment plan on PR

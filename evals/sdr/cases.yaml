@@ -1,4 +1,4 @@
-# Test cases for a qualification prompt — a worked suite to copy for your
+# Test cases for a qualification prompt: a worked suite to copy for your
 # first agent. Keep a suite in sync with the agent it covers: if the prompt
 # changes, re-run and extend these cases in the same PR.
 

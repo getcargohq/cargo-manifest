@@ -8,5 +8,5 @@ closures, or destructuring inside the body).
 
 A tool is the right home for a motion you run per input; reach for a play
 (`../plays/`) when you want it to fire as a model's rows change. That choice is
-worth making deliberately — it is the difference between something you invoke
+worth making deliberately: it is the difference between something you invoke
 and something that invokes itself.
