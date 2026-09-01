@@ -48,16 +48,19 @@ outcome they serve in `plan/outcomes.md`.
    or change the angle. Never upgrade a claim just to unblock the copy.
 
 2. **Infra second.** Pick the implementation by how it is triggered:
-   - Watches a data model, runs per row: `infra/plays/<name>.ts`
-     (`definePlay` + `defineWorkflow`).
-   - Runs on demand, or called by an agent: `infra/tools/<name>.ts`
-     (`defineTool` + `defineWorkflow`).
-   - Reasons, decides, and calls several tools: `infra/agents/<name>.ts`
-     (`defineAgent`).
+   - Watches a data model, runs per row: `definePlay` + `defineWorkflow`.
+   - Runs on demand, or called by an agent: `defineTool` + `defineWorkflow`.
+   - Reasons, decides, and calls several tools: `defineAgent`.
+
+   The file goes in `infra/` as `<name>.ts`. `infra/` is flat by default: only
+   nest (`infra/plays/`, `infra/tools/`, `infra/agents/`) once a use case has
+   enough files that finding one is work, or because a cookbook you installed
+   already nests. Check `infra/README.md` for what the directory looks like now
+   before you decide.
 
    Workflow bodies are parsed, not executed: no await, no try/catch, no
    closures, no destructuring inside the body. Reference existing resources by
-   imported handle, never by pasted UUID. Run `npm --prefix infra run typecheck`.
+   imported handle, never by pasted UUID. Run `npm run typecheck`.
 
 3. **Eval third.** If the motion calls an agent or an `ai()` step whose prompt
    you wrote, add `evals/<name>/` with representative cases and wire it into

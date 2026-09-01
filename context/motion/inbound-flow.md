@@ -1,6 +1,6 @@
 ---
 title: Inbound flow
-description: The play narrative for inbound handling. Demo requests and signal-fired accounts get enriched, scored, and routed within minutes. Implementation ships as a tool in infra/tools.
+description: The play narrative for inbound handling. Demo requests and signal-fired accounts get enriched, scored, and routed within minutes. Implementation ships as a tool in infra/.
 kind: routing
 serves: O1 in plan/outcomes.md
 references:
@@ -10,8 +10,8 @@ references:
 ---
 
 ACME: worked example. Every motion gets one narrative file here and one
-implementation in `infra/`. A play (model watch) lives in `infra/plays/`; a
-motion you run on demand, like this one, ships as a tool in `infra/tools/`.
+implementation in `infra/`. A play watches a model; a motion you run on
+demand, like this one, ships as a tool.
 Keep the slug aligned across the narrative and the implementation.
 
 ## Trigger
@@ -37,6 +37,6 @@ A-tier meeting rate above 30 percent.
 
 ## Implementation
 
-`infra/tools/qualify-inbound.ts` (the `qualify-inbound` tool: enrich, score,
+`infra/qualify-inbound.ts` (the `qualify-inbound` tool: enrich, score,
 draft a routing note). It runs on any email you pass in, so it deploys without
 a CRM connector or env var. Prompt changes there require updating `evals/`.

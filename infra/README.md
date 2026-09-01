@@ -2,7 +2,45 @@
 
 What runs in production. A self-contained Cargo CDK project: every `.ts` file
 here declares a resource, and `cargo-ai cdk deploy` reconciles the workspace to
-match.
+match. Importing a file IS registration; the directory layout is convention.
+
+It ships flat and near-empty on purpose. There is no scaffolding to delete and
+no folder that exists only to hold a README.
+
+## What is here
+
+| File | What it does |
+| --- | --- |
+| `context.ts` | Brings `../context` under CDK management (`defineContext`) |
+| `tsconfig.json` | Compiles this project against the generated workspace types |
+| `.gitignore` | Keeps `node_modules/` and `.cargo-ai/` out; `cargo.state.json` stays in |
+
+## Adding resources
+
+Start from a worked example:
+
+```bash
+npx cargo-ai cdk add            # pick from the catalog
+npx cargo-ai cdk add cookbook/<name>
+```
+
+A cookbook drops the files (and whatever folders it needs) into this directory,
+already wired together. That is where structure comes from: use cases, not an
+empty tree agreed on in advance.
+
+To write one by hand, drop a `.ts` file here and export the resource. Group into
+a folder once a use case has enough files that finding one is work. When you do,
+these are the conventional names, and the ones cookbooks use:
+
+`connectors/` (`defineConnector`), `models/` (`defineModel`), `folders/`
+(`defineFolder`), `tools/` (`defineTool` + `defineWorkflow`), `agents/`
+(`defineAgent`), `plays/` (`definePlay`), `mcp/` (`defineMcpServer`),
+`segments/` (`defineSegment`), `workers/` (`defineWorker`), `apps/`
+(`defineApp`).
+
+Picking between the three that implement a motion: a **play** watches a model
+and runs per row, a **tool** runs on demand or when an agent calls it, an
+**agent** reasons and calls several tools.
 
 ## Commands (run from the repo root)
 
@@ -29,19 +67,8 @@ npm run deploy   # CI only; local deploy is denied by convention
 - Workflow bodies (`defineWorkflow`) are parsed and compiled to a node DAG,
   never executed at build time: no `await`, `try/catch`, closures, or
   destructuring inside the body.
-
-## Layout
-
-| Directory | Resource |
-| --- | --- |
-| `connectors/` | Data sources and LLM providers (`defineConnector`) |
-| `models/` | Tables, native or connector-sourced (`defineModel`) |
-| `folders/` | Workspace organization (`defineFolder`) |
-| `tools/` | Workflow-backed tools (`defineTool` + `defineWorkflow`) |
-| `agents/` | AI agents (`defineAgent`) |
-| `plays/` | Per-row automations over models (`definePlay`) |
-| `mcp/` | MCP servers exposing the stack to outside agents (`defineMcpServer`) |
-| `segments/` | Saved views over models (`defineSegment`), empty until you add one |
-| `workers/` | Hosted edge workers (`defineWorker`), empty until you add one |
-| `apps/` | Hosted Vite apps (`defineApp`), empty until you add one |
-| `context.ts` | Brings `../context` under CDK management (`defineContext`) |
+- Agents keep the narrowest set of handles that lets them work, and an MCP
+  server exposes only what an outside agent needs: both are permission
+  boundaries, not indexes.
+- When you change an agent's system prompt, update its suite under `../evals/`
+  in the same PR.
