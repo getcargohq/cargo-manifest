@@ -14,6 +14,6 @@ reviews. This is the repo's accumulating memory.
 - Agents: before starting research, a campaign, or a review, read the recent
   entries here for prior art. After finishing, write your entry.
 - Learning graduates upward: durable conclusions move to `context/` via the
-  `weekly-review` skill, with the outputs entry as evidence.
+  `cadence` skill's Friday review, with the outputs entry as evidence.
 - Large raw data (CSVs over a few MB) goes to workspace storage, not git;
   the entry links to it.

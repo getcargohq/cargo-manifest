@@ -5,7 +5,7 @@ description: Dropped balls, visible until resolved. An item here for three weeks
 
 ACME: worked example. Delete the rows and keep the mechanism.
 
-Each item carries the date it first slipped and a count. The `plan-week` skill
+Each item carries the date it first slipped and a count. The `cadence` skill
 pulls from this file every Monday, and escalates anything at three weeks or more
 into a decision rather than re-listing it as a task.
 

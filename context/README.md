@@ -25,7 +25,7 @@ A **motion** is the go-to-market move (the narrative: trigger, sequence, owner,
 metric). It lives here, in `motion/`.
 
 A **play** is a Cargo resource: `definePlay`, an automation that watches a data
-model and runs per row. It lives in `infra/plays/`.
+model and runs per row. It lives in `infra/`.
 
 One motion is implemented as a Cargo play, a Cargo tool, or an agent, depending
 on how it fires. The domain is called `motion/` precisely so the two never get

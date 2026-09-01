@@ -20,7 +20,7 @@ replacing with your own. `infra/` ships empty by design: add resources with
 | Skills | `.claude/skills/` | What agents know how to do: procedures for operating this specific repo. |
 | Infra | `infra/` | What runs in production: the deployed engine, declared in TypeScript, reconciled by the Cargo CDK. |
 | Scripts | `scripts/` | What you run by hand: imperative glue for runtime-only surfaces the CDK cannot declare yet. |
-| Evals | `evals/` | What keeps it honest: regression tests that gate prompt and agent changes in CI. |
+| Evals | `evals/` | What keeps it honest: promptfoo regression suites for agent prompts, run with `npm run eval`. |
 | Outputs | `outputs/` | What happened: the append-only archive that gives agents accumulating memory and humans an audit trail. |
 | Scratch | `scratch/` | Yours alone: gitignored personal space with no conventions. Shared layers must never reference it. |
 
@@ -42,8 +42,9 @@ that writes copy without reading `context/` will sound like a generic bot.
 - `initiatives/` is one file per bounded effort, from `_template.md`. Success
   criteria must be checkable true or false. The log is append-only.
 - `cadence/` is `weekly/YYYY-Www.md`, `log/YYYY-MM-DD.md`, and `carryover.md`.
-  Use the `plan-week` and `log-day` skills. An item in carryover for three weeks
-  is a decision being avoided, not a task: escalate it.
+  Use the `cadence` skill (plan the week, log the day, review the week). An
+  item in carryover for three weeks is a decision being avoided, not a task:
+  escalate it.
 - `context/` holds markdown with YAML frontmatter (`title` and `description`
   required). Domains are fixed folders (icp, persona, motion, ...); each has a
   `_template.md`. Cross-reference other files with `references:` in frontmatter
@@ -55,8 +56,10 @@ that writes copy without reading `context/` will sound like a generic bot.
 - `scripts/` is for one-off imperative operations against the workspace
   (memories, users, content libraries). If the CDK can declare it, it belongs
   in `infra/` instead.
-- `evals/` uses promptfoo. When you change a system prompt in `infra/agents/`,
-  update or extend the matching suite in `evals/`.
+- `evals/` uses promptfoo. When you change a system prompt in `infra/`,
+  update or extend the matching suite in `evals/` and run `npm run eval` (needs
+  an `OPENAI_API_KEY`). It is not wired into CI: add a workflow when the suites
+  are worth gating on.
 - `outputs/` entries are directories named `outputs/YYYY-MM-DD-<slug>/`, each
   with a `README.md` carrying an **`outcome:`** field (meetings, replies,
   pipeline attributed, or "none" with a reason). That field is what lets motions
@@ -65,7 +68,9 @@ that writes copy without reading `context/` will sound like a generic bot.
 
 ## Workflow
 
-1. Change `context/` or `infra/` on a branch and open a PR.
+1. Change `context/` or `infra/` on a branch. Before opening the PR, run
+   `npm run lint` if you touched any prose, and `npm run typecheck` if you
+   touched `infra/` or `scripts/`. Both also run in CI.
 2. CI runs `cargo-ai cdk plan` and posts the diff as a comment. Review it the
    way you would review a terraform plan.
 3. Merging to main deploys. Never run `cargo-ai cdk deploy` locally against

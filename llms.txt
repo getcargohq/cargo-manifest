@@ -11,8 +11,8 @@ Manifest structures a GTM organization as a codebase. Knowledge lives in markdow
 - [context/](context/README.md): what the company knows. Eleven domains (global, icp, persona, jtbd, alternative, objection, proof, signal, motion, client, insight) as markdown with YAML frontmatter and a knowledge graph.
 - [initiatives/](initiatives/README.md): bounded efforts with owners, deadlines, and success criteria checkable as true or false.
 - [cadence/](cadence/README.md): the operating rhythm. Weekly plans, daily logs, and a carryover file that keeps dropped balls visible.
-- [infra/](infra/README.md): what runs in production. A Cargo CDK project: connectors, models, segments, tools, agents, plays, MCP servers, apps, workers. Previewed as a diff on every PR, deployed on merge.
-- [evals/](evals/promptfooconfig.yaml): prompt regression tests that gate agent changes in CI.
+- [infra/](infra/README.md): what runs in production. A Cargo CDK project declaring connectors, models, segments, tools, agents, plays, MCP servers, apps, and workers. Ships flat and near-empty; cookbooks add the structure. Previewed as a diff on every PR, deployed on merge.
+- [evals/](evals/promptfooconfig.yaml): promptfoo regression suites for agent prompts, run with `npm run eval`.
 - [outputs/](outputs/README.md): the append-only archive of what happened, each entry tagged with the outcome it produced.
 
 ## Conventions

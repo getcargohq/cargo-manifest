@@ -17,8 +17,8 @@ something that runs. An outcome with no `Becomes:` is a wish.
 - **Measure:** median trigger-to-first-human-touch under 10 minutes; A-tier
   meeting rate above 30 percent
 - **Verify:** `outputs/` weekly review reports the median from run history
-- **Becomes:** `infra/tools/qualify-inbound.ts` plus the `sdr` agent
-  (`infra/agents/sdr.ts`). Narrative: [[motion/inbound-flow]]
+- **Becomes:** `infra/qualify-inbound.ts` plus the `sdr` agent
+  (`infra/sdr.ts`). Narrative: [[motion/inbound-flow]]
 - **Serves:** move 2 (make the trial convert)
 
 ## O2. Outbound to mid-market runs on signals, not lists
@@ -38,5 +38,5 @@ something that runs. An outcome with no `Becomes:` is a wish.
 - **Owner:** RevOps
 - **Measure:** zero accounts in the qualified segment missing firmographics
 - **Verify:** a stale-records segment stays empty
-- **Becomes:** `infra/tools/enrich.ts` on a refresh schedule
+- **Becomes:** `infra/enrich.ts` on a refresh schedule
 - **Serves:** all three moves (hygiene, not a move of its own)

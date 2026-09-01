@@ -16,7 +16,7 @@ The `inbound-flow` play was run manually against a fresh import of 240 inbound
 signups from January, to qualify them against the mid-market B2B SaaS ICP and
 route each to AE, nurture, or decline.
 
-- Play: [[motion/inbound-flow]] (code in `infra/plays/inbound-flow.ts`)
+- Play: [[motion/inbound-flow]] (code in `infra/inbound-flow.ts`)
 - Trigger: manual batch (one-off backfill, not the scheduled run)
 - Context used: [[icp/mid-market-b2b-saas]], [[persona/head-of-growth]]
 

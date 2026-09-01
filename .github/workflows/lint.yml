@@ -1,11 +1,10 @@
-name: context lint
+# Prose checks: context frontmatter and references, outputs entries, copy style.
+# One job, one install: `npm run lint` bundles all three. No path filter, because
+# the copy-style check applies to every markdown file in the repo.
+name: lint
 
 on:
   pull_request:
-    paths:
-      - "context/**"
-      - "outputs/**"
-      - "scripts/**"
 
 permissions:
   contents: read
@@ -23,5 +22,4 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - run: npm run lint:context
-      - run: npm run lint:outputs
+      - run: npm run lint
