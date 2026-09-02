@@ -15,14 +15,14 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p infra"
   },
   "devDependencies": {
-    "@cargo-ai/cli": "^1.0.70",
+    "@cargo-ai/cli": "^1.0.78",
     "@types/node": "^22.0.0",
     "tsx": "^4.19.0",
     "typescript": "^5.3.2",
     "yaml": "^2.6.0"
   },
   "dependencies": {
-    "@cargo-ai/cdk": "^1.0.56",
+    "@cargo-ai/cdk": "^1.0.62",
     "zod": "^4.4.3"
   }
 }
