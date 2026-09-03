@@ -6,7 +6,6 @@ on:
       - "scripts/**"
       - "infra/**"
       - "tsconfig.json"
-      - "infra/tsconfig.json"
       - "package.json"
       - "package-lock.json"
 
@@ -15,7 +14,7 @@ permissions:
 
 jobs:
   # One install, one job: `npm run typecheck` compiles `scripts/` and `infra/`
-  # against their own tsconfigs. Generated types (`cargo-ai cdk types`) sharpen
+  # against the root tsconfig. Generated types (`cargo-ai cdk types`) sharpen
   # extractor/connector config checking, but they are optional (configs fall
   # back to loose records without them), so the key only decides whether we
   # generate them, never whether we typecheck. A repo with no workspace
@@ -40,8 +39,10 @@ jobs:
           else
             echo "enabled=true" >> "$GITHUB_OUTPUT"
           fi
-      # Run from the root: the CDK resolves the project to `infra/` itself, and
-      # writes the types where `infra/tsconfig.json` already looks for them.
+      # Run from the root: `cargo-ai cdk types` writes `.cargo-ai/` next to
+      # package.json, which tsconfig.json includes. postinstall tries this too
+      # and skips when unsigned-in, so this step is the hard fail when the
+      # key is present.
       - name: generate workspace types
         if: steps.guard.outputs.enabled == 'true'
         run: npm run types
