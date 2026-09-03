@@ -12,8 +12,7 @@ no folder that exists only to hold a README.
 | File | What it does |
 | --- | --- |
 | `context.ts` | Brings `../context` under CDK management (`defineContext`) |
-| `tsconfig.json` | Compiles this project against the generated workspace types |
-| `.gitignore` | Keeps `node_modules/` and `.cargo-ai/` out; `cargo.state.json` stays in |
+| `.gitignore` | Keeps leftover `.cargo-ai/` out; `cargo.state.json` stays in |
 
 ## Adding resources
 
@@ -48,8 +47,8 @@ Dependencies install once, at the root. This directory has no package.json of
 its own: the CDK finds it by name.
 
 ```bash
-npm install
-npm run types    # generate per-workspace types into .cargo-ai/
+npm install      # also runs `npm run types` (skips if you are not signed in)
+npm run types    # regenerate per-workspace types into .cargo-ai/
 npm run info     # what the project declares, offline
 npm run plan     # read-only diff: code vs live workspace
 npm run deploy   # CI only; local deploy is denied by convention
