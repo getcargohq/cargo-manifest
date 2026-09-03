@@ -6,4 +6,8 @@ import { defineContext } from "@cargo-ai/cdk";
 //
 // v0.1 contract: this push is one-way. The git repo is the source of truth;
 // treat runtime context edits made by agents in the workspace as ephemeral.
-export const context = defineContext({ dir: "../context" });
+// The path is resolved from THIS file, not from the working directory, so it
+// points at the repo's context/ whatever directory the command was run from.
+export const context = defineContext({
+  path: new URL("../context", import.meta.url).pathname,
+});
