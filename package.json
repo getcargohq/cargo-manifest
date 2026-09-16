@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "postinstall": "npm run types || echo 'Skipping workspace types. Run npm run types after cargo-ai login.'",
-    "lint": "npm run lint:context && npm run lint:outputs && npm run lint:copy",
+    "lint": "npm run lint:context && npm run lint:outputs && npm run lint:copy && npm run lint:examples",
+    "lint:examples": "tsx scripts/ci/lint-acme.ts",
     "lint:context": "tsx scripts/ci/lint-context.ts",
     "lint:outputs": "tsx scripts/ci/lint-outputs.ts",
     "lint:copy": "tsx scripts/ci/check-copy.ts",

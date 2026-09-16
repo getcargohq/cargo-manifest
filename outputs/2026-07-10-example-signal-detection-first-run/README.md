@@ -1,5 +1,5 @@
 ---
-title: Signal detection, first run against the TAM
+title: "Example: signal detection, first run against the TAM"
 description: First live run of hiring-signal detection across the 340-account TAM list. Three accounts fired, all genuine.
 outcome: 3 accounts triggered, 0 meetings yet (detection only, no outreach sent)
 date: 2026-07-10

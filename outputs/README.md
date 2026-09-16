@@ -10,7 +10,8 @@ reviews. This is the repo's accumulating memory.
 - Every entry has a `README.md` stating: what ran, the headline result, and
   where the full data lives (files in the entry, or a link).
 - Append-only. Never rewrite or delete an existing entry; correct it with a
-  dated addendum.
+  dated addendum. The one exception is an entry carrying an `ACME:` marker:
+  those are worked examples, not history, and deleting them is the point.
 - Agents: before starting research, a campaign, or a review, read the recent
   entries here for prior art. After finishing, write your entry.
 - Learning graduates upward: durable conclusions move to `context/` via the

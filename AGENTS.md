@@ -6,7 +6,10 @@ conventions (Manifest, by Cargo).
 
 The knowledge layers ship a worked example for a fictional company, Acme.
 Search for `ACME:` markers to find every file that is fiction and needs
-replacing with your own. `infra/` ships empty by design: add resources with
+replacing with your own, or run `npm run lint:examples`, which lists them and
+is part of `npm run lint`. It reports rather than fails, because a fresh
+scaffold carries every marker. Once the repo is yours, run it with `--strict`
+in CI to keep fiction from coming back. `infra/` ships empty by design: add resources with
 `cargo-ai cdk add cookbook/<name>` or by writing them.
 
 ## Layers
