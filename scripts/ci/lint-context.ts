@@ -6,6 +6,9 @@
  *   - unparseable frontmatter
  *   - `references:` entries that don't resolve to a context file
  *   - [[wikilinks]] or relative .md links that don't resolve
+ *   - a [[wikilink]] in plan/, cadence/, initiatives/ or outputs/ that names
+ *     no context file (templates are exempt: their placeholders are
+ *     illustrative)
  *   - files outside a known domain
  *   - missing or invalid `confidence:` on proof/, signal/, insight/ files
  *   - missing or invalid `kind:` on motion/ files
@@ -266,6 +269,38 @@ for (const doc of docs) {
       errors.push(
         `${doc.rel}: outreach motion cites "${target}" which is still confidence: ${confidence}. Outreach may cite only ${CITABLE_BY_OUTREACH.join(" or ")} knowledge.`,
       );
+    }
+  }
+}
+
+// Wikilinks from the OTHER layers. `context/` is the only place a [[slug]]
+// resolves, but plan/, cadence/, initiatives/ and outputs/ all cite into it,
+// and nothing used to check those: the scaffold shipped worked examples citing
+// seven context notes that did not exist, and the lint was green. A citation
+// into context is also a reference for the orphan check below.
+const CITING_LAYERS = ["plan", "cadence", "initiatives", "outputs"];
+const repoRoot = dirname(CONTEXT_DIR);
+
+for (const layer of CITING_LAYERS) {
+  const layerDir = join(repoRoot, layer);
+  if (!existsSync(layerDir)) continue;
+
+  for (const path of walk(layerDir)) {
+    const base = path.split("/").pop()!;
+    // Templates carry illustrative [[domain/...]] placeholders on purpose.
+    if (base.startsWith("_template")) continue;
+    if (path.includes("/_template/")) continue;
+
+    const rel = relative(repoRoot, path);
+    const raw = readFileSync(path, "utf8");
+
+    for (const m of raw.matchAll(/\[\[([^\]|#]+)(?:[|#][^\]]*)?\]\]/g)) {
+      const target = m[1].trim();
+      if (!refExists(target)) {
+        errors.push(`${rel}: broken wikilink [[${target}]] (no such file in context/)`);
+      } else {
+        referenced.add(target);
+      }
     }
   }
 }

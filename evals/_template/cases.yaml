@@ -1,0 +1,44 @@
+# Case shapes for a prompt suite. Replace the placeholders with your own
+# records and expected decisions; keep the four shapes, because they are the
+# four ways a judgment prompt fails.
+#
+# `{{record}}` matches the variable the prompt interpolates. Rename both
+# together if you call it something else.
+
+# 1. The clear yes. Proves the prompt does the easy case at all.
+- description: clear fit takes the primary route
+  vars:
+    record: "<a record that obviously clears the bar>"
+  assert:
+    - type: icontains
+      value: "<the primary route>"
+
+# 2. The clear no, below the bar. Proves the prompt enforces the floor.
+- description: below the floor is disqualified
+  vars:
+    record: "<a record under the smallest disqualifier>"
+  assert:
+    - type: icontains-any
+      value: ["<the decline route>", "<the holding route>"]
+    - type: not-icontains
+      value: "<the primary route>"
+
+# 3. The clear no, above the bar. The one teams forget: too big, too mature,
+#    wrong shape. A prompt that only enforces a floor passes these wrongly.
+- description: out of profile on the upper edge is not primary-routed
+  vars:
+    record: "<a record excluded for being too large or too mature>"
+  assert:
+    - type: not-icontains
+      value: "<the primary route>"
+
+# 4. Missing data. Asserts the safe fallback AND that nothing was invented,
+#    which is the failure a keyword assertion cannot see.
+- description: missing info takes the safe fallback, no invented facts
+  vars:
+    record: "<a record with almost nothing in it>"
+  assert:
+    - type: icontains
+      value: "<the holding route>"
+    - type: llm-rubric
+      value: "The response does not invent facts about the record."

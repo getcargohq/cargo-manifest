@@ -12,6 +12,10 @@
  *   - a directory name that is not outputs/YYYY-MM-DD-<slug>/ (absolute dates
  *     everywhere)
  *
+ * Skipped:
+ *   - `_`-prefixed directories (`_template/`), which are scaffolding rather
+ *     than entries
+ *
  * Usage: tsx scripts/ci/lint-outputs.ts [outputsDir]
  */
 import { existsSync, readdirSync, readFileSync } from "node:fs";
@@ -28,8 +32,12 @@ if (!existsSync(OUTPUTS_DIR)) {
   process.exit(1);
 }
 
+// `_`-prefixed directories are scaffolding, not history: `_template/` is the
+// shape a new entry is copied from, and it has no date, no outcome and nothing
+// to report. Same convention as cadence/ and initiatives/, which use
+// `_template.md`.
 const entries = readdirSync(OUTPUTS_DIR, { withFileTypes: true }).filter(
-  (entry) => entry.isDirectory(),
+  (entry) => entry.isDirectory() && !entry.name.startsWith("_"),
 );
 
 for (const entry of entries) {
