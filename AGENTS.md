@@ -4,10 +4,15 @@ This repository is __APP_NAME__'s GTM engine: knowledge, infrastructure, and run
 for the whole go-to-market, managed as code. It follows the Manifest framework
 conventions (Manifest, by Cargo).
 
-The knowledge layers ship a worked example for a fictional company, Acme.
-Search for `ACME:` markers to find every file that is fiction and needs
-replacing with your own. `infra/` ships empty by design: add resources with
-`cargo-ai cdk add cookbook/<name>` or by writing them.
+The knowledge layers ship empty, not populated. Every repeating artifact has a
+`_template.md` beside it to copy (`cadence/log/`, `cadence/weekly/`,
+`initiatives/`, `outputs/`, each `context/<domain>/`, `evals/`), and the four
+singletons that must exist by name (`plan/company-plan.md`, `plan/strategy.md`,
+`plan/outcomes.md`, `cadence/carryover.md`) ship as skeletons: the headings and
+the rules, none of the content. Nothing here is another company's data, so
+there is nothing to find and delete before you start. `infra/` ships empty by
+design too: add resources with `cargo-ai cdk add cookbook/<name>` or by writing
+them.
 
 ## Layers
 

@@ -3,40 +3,24 @@ title: Outcomes
 description: The concrete outcomes that must become true this period, each with an owner, a measure, and the thing it becomes in the engine.
 ---
 
-ACME: worked example. Replace with your own.
-
-Every outcome carries four fields. The one that matters most is **Becomes**: the
+Every outcome carries five fields. The one that matters most is **Becomes**: the
 play, agent, or tool in `infra/` that turns the outcome from a sentence into
 something that runs. An outcome with no `Becomes:` is a wish.
 
+Number them `O1`, `O2`, `O3`. The rest of the repo cites them by that number:
+`cadence/weekly/` entries and `outputs/` entries both carry
+`serves: O<n> in plan/outcomes.md`, so the numbering is an interface.
+
 ---
 
-## O1. Every inbound lead is qualified and routed within 10 minutes
+## O1. _The outcome, as a sentence that is true or false_
 
-- **Owner:** Head of Growth
-- **Measure:** median trigger-to-first-human-touch under 10 minutes; A-tier
-  meeting rate above 30 percent
-- **Verify:** `outputs/` weekly review reports the median from run history
-- **Becomes:** `infra/qualify-inbound.ts` plus the `sdr` agent
-  (`infra/sdr.ts`). Narrative: [[motion/inbound-flow]]
-- **Serves:** move 2 (make the trial convert)
-
-## O2. Outbound to mid-market runs on signals, not lists
-
-- **Owner:** Head of Growth
-- **Measure:** reply rate above 8 percent on signal-triggered outreach by
-  2026-09-30. Below that, the bet in `strategy.md` is wrong.
-- **Verify:** the play declares its hypothesis up front; `outputs/` entries carry
-  the `outcome:` field, so results are judged against the bar we set in advance
-- **Becomes:** a signal-triggered outreach play (not yet built). Trigger:
-  [[signal/hiring-gtm-engineer]]
-- **Serves:** move 1 (stand up outbound). Tracked in
-  `initiatives/outbound-motion.md`
-
-## O3. Account data is never the reason a rep loses time
-
-- **Owner:** RevOps
-- **Measure:** zero accounts in the qualified segment missing firmographics
-- **Verify:** a stale-records segment stays empty
-- **Becomes:** `infra/enrich.ts` on a refresh schedule
-- **Serves:** all three moves (hygiene, not a move of its own)
+- **Owner:** _one named person, not a team_
+- **Measure:** _a number and an absolute date. "Median X under Y by
+  YYYY-MM-DD", never "improve X"_
+- **Verify:** _where the number is read from, so it is checkable without
+  asking anyone_
+- **Becomes:** _the file in `infra/` that makes it real, e.g.
+  `infra/qualify-inbound.ts` plus an agent. Write "not yet built" if it is not,
+  and that is the backlog_
+- **Serves:** _which of the three moves in `company-plan.md`_

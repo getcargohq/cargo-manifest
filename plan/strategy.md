@@ -1,49 +1,44 @@
 ---
 title: Strategy
-description: How revenue actually gets won at Acme: ICP, segments, motions, the bets we are making, and what we are explicitly not doing.
+description:
 ---
 
-ACME: worked example. Replace with your own.
+_How revenue actually gets won here: who you sell to, through which motions,
+what you are betting on, and what you are explicitly not doing._
 
 ## Who we sell to
 
-[[icp/mid-market-b2b-saas]] is the primary profile: B2B SaaS, 50 to 500
-employees, $5M to $50M ARR, no dedicated data team. The buyer is
-[[persona/head-of-growth]], who owns the number and hates waiting on the data
-team.
+_The primary profile, as a wikilink into `context/icp/` rather than a
+paragraph, plus the buyer as one into `context/persona/`. Write the detail once
+in `context/` and cite it from here, so the plan and the agents read the same
+definition._
 
 ## Segments
 
+_One row per segment, each bound to the motion that serves it. A segment with no
+motion is a list nobody works._
+
 | Segment | Definition | Motion |
 | --- | --- | --- |
-| Expansion | Existing accounts with more than one team using Acme | AE-led, quarterly business review |
-| Inbound | Trial signups and demo requests | Product-led, human touch only above the ICP bar |
-| Outbound | ICP accounts showing [[signal/hiring-gtm-engineer]] | New in H2 2026, the bet |
+|  |  |  |
 
 ## Motions
 
-- **Product-led for inbound.** The trial does the selling. A human enters only
-  when the account clears the ICP bar, so reps never chase noise.
-- **Signal-led for outbound.** We do not spray the TAM. We wait for a trigger,
-  because the trigger is what makes the message specific.
-- **Expansion by proof.** We expand where we can show a result, which is why
-  [[proof/case-study-initech]] is load-bearing.
+_How each segment is actually worked, and why that way. One short paragraph
+each._
 
 ## The bets
 
-1. **Signal-led beats volume.** We bet that 200 well-timed touches outperform
-   5,000 cold ones. If reply rate on signal-triggered outreach does not clear 8
-   percent by 2026-09-30, the bet is wrong and we rethink.
-2. **The cohort report is the activation moment.** We bet that getting a trial
-   to their first cohort answer in week one is what converts them.
+_The things you believe that are not yet proven. Each one gets a falsifying
+condition with an absolute date: the measure that would tell you the bet is
+wrong, and when you will look. A bet with no way to lose is a slogan._
+
+1.
 
 ## What we are NOT doing
 
-Saying this out loud is the point: it is what keeps the plan honest.
+_Saying this out loud is the point: it is what keeps the plan honest. Each
+exclusion names the reason, and links the `context/objection/` note or the
+`context/icp/` disqualifier behind it where there is one._
 
-- **Not selling to enterprise.** They have data teams and build in-house. See
-  the disqualifiers in [[icp/mid-market-b2b-saas]].
-- **Not competing on dashboards.** We lose that framing and it misses the point.
-  See [[objection/we-already-have-dashboards]].
-- **Not building a partner channel in 2026.** It is a real motion, but it is not
-  one of the three moves, so it waits.
+-

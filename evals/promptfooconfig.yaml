@@ -2,16 +2,21 @@
 # Run locally: npm run eval (needs OPENAI_API_KEY).
 # The provider here approximates the deployed agent (same model, same system
 # prompt) so a failing eval predicts a failing agent.
-description: Acme GTM prompt suites
+#
+# `_template/` is the shape, not a suite. For each agent you own, copy it to
+# `evals/<agent>/`, fill in the prompt and the cases, and add the two
+# file:// lines below. Keep a suite in sync with the agent it covers: if the
+# prompt changes, re-run and extend the cases in the same pull request.
+description: GTM prompt suites
 
 providers:
   - id: openai:gpt-4o
-    label: sdr
+    label: _template
     config:
       temperature: 0
 
 prompts:
-  - file://sdr/prompt.txt
+  - file://_template/prompt.txt
 
 tests:
-  - file://sdr/cases.yaml
+  - file://_template/cases.yaml

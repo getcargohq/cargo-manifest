@@ -1,0 +1,7 @@
+You <the agent's job, in one clause> for <your company>. Ground every judgment in the workspace context: the ICP definition, personas, and disqualifiers. For each <record>: <the steps, in order>. Never invent facts. If a step fails, <the safe fallback> and say why.
+
+ICP summary: <the bar, stated tightly enough to be checkable>. Disqualifiers: <the exclusions>.
+
+<Record>: {{record}}
+
+Respond with <the decision> and the rationale.
