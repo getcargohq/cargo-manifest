@@ -148,24 +148,33 @@ you.
 ## 60-second start
 
 ```bash
-git clone https://github.com/getcargohq/cargo-manifest acme-gtm
-cd acme-gtm && npm install
-claude .   # or cursor, or any agent that reads AGENTS.md
+npx @cargo-ai/cli start --email you@company.com --continue claude
 ```
 
-Then tell your agent: "Read AGENTS.md and help me seed this repo for my company."
-It will interview you and fill the layers.
+That one command signs you in (it emails you a one-time code), creates a
+workspace, scaffolds this repo into a new directory with your company name
+filled in, and opens Claude Code in it. Use `--continue cursor` or
+`--continue codex` for another agent. There is no separate sign-up step and no
+browser at any point.
 
-Have a Cargo workspace? Wire the engine: `cd infra && npx cargo-ai cdk plan`.
+Then tell your agent: "Read AGENTS.md and help me seed this repo for my
+company." It will interview you and fill the layers.
 
-No workspace yet? Make one from the terminal. There is no separate sign-up step
-and no browser at any point: the first call emails a one-time code and exits,
-and the second creates the account and a workspace.
+Already signed in? Scaffold a project on its own:
 
 ```bash
-npx @cargo-ai/cli login --email you@company.com
-npx @cargo-ai/cli login --email you@company.com --code 123456
+npx @cargo-ai/cli cdk init acme-gtm --name acme
 ```
 
-Everything except `infra/` also works standalone, so you can seed the repo first
-and wire the execution layer whenever you're ready.
+Add `--cookbook <name>` to start from a prebuilt play instead of an empty
+`infra/`. Once the project exists, `npm run plan` previews what it would deploy.
+
+Not using Cargo? Everything except `infra/` works standalone. Clone the repo
+and replace `__APP_NAME__` in `package.json`, `manifest.json`, and `AGENTS.md`
+with your company name:
+
+```bash
+git clone https://github.com/getcargohq/cargo-manifest acme-gtm
+```
+
+You can seed the repo first and wire the execution layer whenever you're ready.
