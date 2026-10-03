@@ -23,7 +23,7 @@
     "yaml": "^2.6.0"
   },
   "dependencies": {
-    "@cargo-ai/cdk": "^1.0.88",
+    "@cargo-ai/cdk": "^1.0.97",
     "zod": "^4.4.3"
   }
 }
