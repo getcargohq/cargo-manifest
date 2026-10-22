@@ -91,6 +91,11 @@ learning from the first to the second, so the repo gets smarter every week.
 2. **Summarize.** Write `outputs/YYYY-MM-DD-weekly-review/README.md` with:
    - What ran (plays, campaigns, research) and headline numbers.
    - What worked, what failed, with evidence.
+   - For each outcome an agent owns in `plan/outcomes.md`: the weekly signal
+     against the pace the target needs, any guardrail breached, tests started
+     and ended inside the experiment budget with their result against the bar
+     they set in advance, proposals waiting for the owner, and whether the
+     escalation point was reached.
    - Open questions.
 
 3. **Extract durable learning.** For each finding that changes what we know,
