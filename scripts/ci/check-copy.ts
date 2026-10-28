@@ -26,6 +26,12 @@ const SKIP = new Set([
 // project's first pull request fails on thousands of em dashes it never wrote.
 const VENDORED = ["agent/skills/", ".agents/skills/"];
 
+// Pages captured from the web are quoted, not written here: `cargo-ai project
+// init` and the web-capture cookbook save them verbatim so a later read diffs
+// against them. Rewriting their dashes would read as a change on the site, and
+// leaving them would fail the first pull request of every project that read one.
+const CAPTURED = ["cadence/log/raw/"];
+
 const BINARY_EXT = /\.(png|jpe?g|gif|webp|ico|pdf|zip|gz|woff2?|ttf|eot)$/i;
 
 const tracked = execFileSync("git", ["ls-files"], { encoding: "utf8" })
@@ -33,7 +39,8 @@ const tracked = execFileSync("git", ["ls-files"], { encoding: "utf8" })
   .map((f) => f.trim())
   .filter(Boolean)
   .filter((f) => !SKIP.has(f) && !BINARY_EXT.test(f))
-  .filter((f) => !VENDORED.some((dir) => f.startsWith(dir)));
+  .filter((f) => !VENDORED.some((dir) => f.startsWith(dir)))
+  .filter((f) => !CAPTURED.some((dir) => f.startsWith(dir)));
 
 const offenders: string[] = [];
 
