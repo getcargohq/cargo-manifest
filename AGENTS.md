@@ -110,11 +110,11 @@ that writes copy without reading `context/` will sound like a generic bot.
 2. Cargo plans the pull request and posts the diff as a comment and a check,
    once the repository is connected to the workspace (Settings > States).
    Review it the way you would review a terraform plan.
-3. Merging to main deploys. Never run `cargo-ai cdk deploy` locally against
-   production. Local deploy is denied by convention and hard-blocked per agent:
-   Claude Code (`.claude/settings.json`), Cursor
-   (`.cursor/rules/manifest-guardrails.mdc`), and Codex (`.codex/config.toml`
-   sandbox).
+3. Merging to main deploys. Never run `cargo-ai project deploy` (or its `cdk`
+   alias, `cargo-cdk deploy` or `npm run deploy`) locally against production.
+   Local deploy is denied by convention and hard-blocked per agent:
+   Claude Code (`.claude/settings.json`), Cursor (`.cursor/hooks.json`), and
+   Codex (the PreToolUse hook in `.codex/config.toml`).
 
 ## Rules
 

@@ -30,7 +30,8 @@ experimental_use_rmcp_client = true
 url = "https://mcp.getcargo.io"
 bearer_token_env_var = "CARGO_API_TOKEN"
 
-# Deterministic guard: hard-block local `cargo-ai cdk deploy` / `cdk destroy`.
+# Deterministic guard: hard-block local `cargo-ai project deploy|destroy`, its
+# `cdk` alias, `cargo-cdk` and `npm run deploy`.
 # This is the Codex counterpart to the Claude Code deny list and the Cursor
 # beforeShellExecution hook. Codex requires you to review and trust this hook
 # once via `/hooks` before it runs (its script hash is recorded on trust).
@@ -41,4 +42,4 @@ matcher = "^Bash$"
 type = "command"
 command = '/usr/bin/python3 "$(git rev-parse --show-toplevel)/.codex/hooks/deny-local-deploy.py"'
 timeout = 10
-statusMessage = "Checking for local cdk deploy"
+statusMessage = "Checking for local deploy"
