@@ -70,8 +70,16 @@ that writes copy without reading `context/` will sound like a generic bot.
 ## Working in each layer
 
 - `plan/` holds three files and no more. Every outcome carries an owner, a
-  measure, and a `Becomes:` naming the play, agent, or tool in `infra/` that
-  makes it real. An outcome with no `Becomes:` is a wish.
+  metric defined well enough to calculate, a baseline, a target, and a
+  `Becomes:` naming the play, agent, or tool in `infra/` that makes it real. An
+  outcome with no `Becomes:` is a wish.
+- If you own an outcome, read its whole entry before acting: the weekly signal
+  you report, the guardrails you must not break, the experiment budget you may
+  spend without asking, what you may do alone, what you must propose, and when
+  you must escalate. Calculate the baseline before your first run. Never edit
+  your own outcome's target, metric or guardrails: propose the change in a
+  pull request with the evidence. New initiatives you suggest are written with
+  `status: proposed`; only a person moves one to `active`.
 - `initiatives/` is one file per bounded effort, from `_template.md`. Success
   criteria must be checkable true or false. The log is append-only.
 - `cadence/` is `weekly/YYYY-Www.md`, `log/YYYY-MM-DD.md`, and `carryover.md`.

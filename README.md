@@ -73,10 +73,14 @@ chasing this period and the three moves that get you there
 ([`company-plan.md`](plan/company-plan.md)). How revenue actually gets won: your
 ICP, your motions, the bets you're making and what you're explicitly not doing
 ([`strategy.md`](plan/strategy.md)). And the concrete outcomes that must become
-true, each with an owner, a way to verify it, and what it becomes in the engine:
-a play, an agent, a report ([`outcomes.md`](plan/outcomes.md)). This replaces the
-strategy deck that goes stale a week after the offsite, because here the plan is
-checked against reality continuously.
+true, each with an owner, a number anyone can calculate, a baseline and a
+target, and what it becomes in the engine: a play, an agent, a report
+([`outcomes.md`](plan/outcomes.md)). Hand an outcome to an agent and it gets
+more than a target: the guardrails it must not break, a budget to experiment
+with, what it may do alone, and when it must come back to you. That turns an
+agent from something that runs your plan into something that proposes the next
+one. This replaces the strategy deck that goes stale a week after the offsite,
+because here the plan is checked against reality continuously.
 
 **[`context/`](context/README.md): what your company knows.** The single source
 of truth for your market knowledge, split into folders a rep would recognize:

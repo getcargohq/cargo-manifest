@@ -7,7 +7,7 @@ Manifest structures a GTM organization as a codebase. Knowledge lives in markdow
 ## Layers
 
 - [AGENTS.md](AGENTS.md): the agent contract. Read order, layer rules, conventions. Every agent reads this first.
-- [plan/](plan/README.md): the destination. The one goal, the strategy, and the outcomes that must become true. Each outcome names what it becomes in infra/.
+- [plan/](plan/README.md): the destination. The one goal, the strategy, and the outcomes that must become true. Each outcome has a metric defined well enough to calculate, a baseline, a target, and names what it becomes in infra/. An outcome an agent owns also sets its weekly signal, guardrails, experiment budget, decision rights and escalation point.
 - [context/](context/README.md): what the company knows. Eleven domains (global, icp, persona, jtbd, alternative, objection, proof, signal, motion, client, insight) as markdown with YAML frontmatter and a knowledge graph.
 - [initiatives/](initiatives/README.md): bounded efforts with owners, deadlines, and success criteria checkable as true or false.
 - [cadence/](cadence/README.md): the operating rhythm. Weekly plans, daily logs, and a carryover file that keeps dropped balls visible.
