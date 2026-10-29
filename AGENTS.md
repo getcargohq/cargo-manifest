@@ -50,7 +50,7 @@ connect to `https://mcp.getcargo.io/mcp`.
 | Context | `context/` | What the company knows: the durable GTM brain every agent reads before acting. |
 | Initiatives | `initiatives/` | The big rocks: bounded efforts with an owner, a deadline, and success criteria checkable as true or false. |
 | Cadence | `cadence/` | The operating rhythm: weekly plans, daily logs, and the carryover file that keeps dropped balls visible. Knowledge says what is true; cadence says what matters now. |
-| Skills | `.claude/skills/` | What agents know how to do: procedures for operating this specific repo. |
+| Skills | `.agents/skills/` | What agents know how to do: procedures for operating this specific repo. |
 | Infra | `infra/` | What runs in production: the deployed engine, declared in TypeScript, reconciled by the Cargo CDK. |
 | Scripts | `scripts/` | What you run by hand: imperative glue for runtime-only surfaces the CDK cannot declare yet. |
 | Evals | `evals/` | What keeps it honest: promptfoo regression suites for agent prompts, run with `npm run eval`. |
@@ -94,6 +94,14 @@ that writes copy without reading `context/` will sound like a generic bot.
   registration; the directory layout is convention. NEVER edit
   `infra/cargo.state.json` by hand. Secrets come from the environment via
   `secret()` and `env()`; never commit values.
+- `.agents/skills/` is where every agent reads skills: Codex, Cursor and the
+  skills installer natively, Claude Code through the committed symlinks in
+  `.claude/skills/`. It also holds the installed Cargo skills, which are
+  gitignored install output. A new repo skill is a real directory in
+  `.agents/skills/`, one allowlist line for it and one for its symlink in
+  `.gitignore`, and the symlink itself:
+  `ln -s ../../.agents/skills/<name> .claude/skills/<name>`. Never copy a
+  skill into `.claude/skills/`: two copies drift.
 - `scripts/` is for one-off imperative operations against the workspace
   (memories, users, content libraries). If the CDK can declare it, it belongs
   in `infra/` instead.

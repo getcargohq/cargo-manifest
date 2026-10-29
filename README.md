@@ -116,10 +116,11 @@ and edit its placeholders. The
 [cookbooks](https://github.com/getcargohq/cargo-cookbooks) are the menu; the
 manifest is where they land.
 
-**[`.claude/skills/`](.claude/skills): what your agent knows how to do here.**
+**[`.agents/skills/`](.agents/skills): what your agent knows how to do here.**
 Standard operating procedures your agent actually executes: plan my week, create
 a new motion, run the weekly review, clean up the context layer. Written once,
-executed the same way every time, by anyone on the team.
+executed the same way every time, by anyone on the team. Every agent reads them
+from here; Claude Code finds them through the symlinks in `.claude/skills/`.
 
 **[`evals/`](evals): what keeps it honest.** Test cases that catch a prompt change
 making your agents worse before it ships. Change how your qualification agent

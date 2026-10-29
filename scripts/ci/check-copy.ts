@@ -26,6 +26,22 @@ const SKIP = new Set([
 // project's first pull request fails on thousands of em dashes it never wrote.
 const VENDORED = ["agent/skills/", ".agents/skills/"];
 
+// The repo's own skills share `.agents/skills/` with the vendored bundle and
+// are not exempt. One is told apart the way AGENTS.md defines it: a committed
+// symlink at `.claude/skills/<name>`. The installer's symlinks are gitignored,
+// so they never appear here.
+const OWN_SKILLS = execFileSync("git", ["ls-files", "-s", ".claude/skills"], {
+  encoding: "utf8",
+})
+  .split("\n")
+  .filter((line) => line.startsWith("120000 "))
+  .map((line) => line.split("\t")[1].slice(".claude/skills/".length))
+  .map((name) => `.agents/skills/${name}/`);
+
+const isVendored = (f: string) =>
+  VENDORED.some((dir) => f.startsWith(dir)) &&
+  !OWN_SKILLS.some((dir) => f.startsWith(dir));
+
 // Pages captured from the web are quoted, not written here: `cargo-ai project
 // init` and the web-capture cookbook save them verbatim so a later read diffs
 // against them. Rewriting their dashes would read as a change on the site, and
@@ -39,7 +55,7 @@ const tracked = execFileSync("git", ["ls-files"], { encoding: "utf8" })
   .map((f) => f.trim())
   .filter(Boolean)
   .filter((f) => !SKIP.has(f) && !BINARY_EXT.test(f))
-  .filter((f) => !VENDORED.some((dir) => f.startsWith(dir)))
+  .filter((f) => !isVendored(f))
   .filter((f) => !CAPTURED.some((dir) => f.startsWith(dir)));
 
 const offenders: string[] = [];

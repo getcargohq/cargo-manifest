@@ -26,7 +26,7 @@ in `.claude/settings.json`.
   everything, `outputs/` is written by everything and read only as memory.
   Nothing depends on `outputs/`.
 - Put each change in its layer: knowledge in `context/`, production wiring in
-  `infra/`, repo procedures in `.claude/skills/`, one-off ops in `scripts/`,
+  `infra/`, repo procedures in `.agents/skills/`, one-off ops in `scripts/`,
   regression suites in `evals/`, run archives in `outputs/`.
 - New plays go through the `new-play` skill so context, infra, and evals ship
   together.
