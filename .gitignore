@@ -9,6 +9,35 @@ node_modules/
 # promptfoo local cache
 .promptfoo/
 
+# `.agents/skills/` holds both kinds of skill, the cross-agent location Codex,
+# Cursor and the skills installer read. The repo's own procedures are committed
+# real directories, allowlisted below; everything else (getcargohq/cargo-skills,
+# getcargohq/gtm-skills, cookbook skills) is install output, like node_modules/.
+# Allowlisted rather than pattern-ignored: the installed set has no common
+# prefix and grows upstream, while the committed set changes only when somebody
+# writes a skill for this repo, which is the moment to add a line here (and one
+# below).
+.agents/*
+!.agents/skills/
+.agents/skills/*
+!.agents/skills/cadence/
+!.agents/skills/capture-feedback/
+!.agents/skills/context-hygiene/
+!.agents/skills/new-execution/
+!.agents/skills/new-motion/
+skills-lock.json
+
+# `.claude/skills/` is where Claude Code looks. Every entry is a symlink into
+# `.agents/skills/`: the installer creates the ones for installed skills, and
+# the repo's own are committed (no trailing slash: git stores a symlink as a
+# file, so a directory pattern would never match it).
+.claude/skills/*
+!.claude/skills/cadence
+!.claude/skills/capture-feedback
+!.claude/skills/context-hygiene
+!.claude/skills/new-execution
+!.claude/skills/new-motion
+
 # Personal space: never shared, never reviewed. See scratch/README.md.
 scratch/*
 !scratch/README.md

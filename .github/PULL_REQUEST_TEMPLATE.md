@@ -6,7 +6,7 @@
 
 - [ ] context/ (ran `npm run lint:context`)
 - [ ] infra/ (reviewed the cargo plan comment below before merging)
-- [ ] .claude/skills/
+- [ ] .agents/skills/
 - [ ] evals/ (required if a system prompt changed)
 - [ ] scripts/
 - [ ] outputs/ (an execution: checked its "Runs once" row in the plan comment)
