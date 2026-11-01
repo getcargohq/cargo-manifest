@@ -14,7 +14,19 @@
     ],
     "deny": [
       "Bash(cargo-ai cdk deploy*)",
-      "Bash(cargo-ai cdk destroy*)"
+      "Bash(cargo-ai cdk destroy*)",
+      "Bash(cargo-ai project deploy*)",
+      "Bash(cargo-ai project destroy*)",
+      "Bash(cargo-cdk deploy*)",
+      "Bash(cargo-cdk destroy*)",
+      "Bash(npx @cargo-ai/cli cdk deploy*)",
+      "Bash(npx @cargo-ai/cli cdk destroy*)",
+      "Bash(npx @cargo-ai/cli project deploy*)",
+      "Bash(npx @cargo-ai/cli project destroy*)",
+      "Bash(npx @cargo-ai/cdk deploy*)",
+      "Bash(npx @cargo-ai/cdk destroy*)",
+      "Bash(npm run deploy)",
+      "Bash(npm run deploy *)"
     ]
   }
 }
