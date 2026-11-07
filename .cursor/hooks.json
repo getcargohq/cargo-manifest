@@ -4,7 +4,7 @@
     "beforeShellExecution": [
       {
         "command": "python3 .cursor/hooks/deny-local-deploy.py",
-        "matcher": "cargo-ai\\s+cdk\\s+(deploy|destroy)",
+        "matcher": "(?:\\bcargo-ai|@cargo-ai/cli)(?:@\\S*)?(?:\\s+-\\S+)*\\s+(?:project|cdk)\\s+(?:deploy|destroy)\\b|(?:\\bcargo-cdk|@cargo-ai/cdk)(?:@\\S*)?(?:\\s+-\\S+)*\\s+(?:deploy|destroy)\\b|\\b(?:npm|pnpm|yarn|bun)(?:\\s+-\\S+)*\\s+(?:run(?:-script)?(?:\\s+-\\S+)*\\s+)?[\\\"']?deploy(?![\\w:-])",
         "failClosed": true
       }
     ]
