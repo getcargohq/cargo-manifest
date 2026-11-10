@@ -1,4 +1,8 @@
 {
   "resources": "infra",
-  "executions": ["outputs"]
+  "executions": ["outputs"],
+  "harness": {
+    "setup": "npm ci",
+    "refresh": "npm ci"
+  }
 }
