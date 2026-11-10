@@ -1,17 +1,21 @@
-## What
+<!-- The first line is the one sentence a reviewer must read: what happens if
+     they approve. Plain words, no jargon. What merging deploys, runs and sends
+     is in Cargo's plan check below, so do not restate it here.
 
-<!-- One sentence: what changes and why. -->
+     Keep "You decide" and "After merging, by hand" only when they apply, and
+     delete them otherwise. -->
 
-## Layers touched
+ONE SENTENCE: what happens if you approve.
 
-- [ ] context/ (ran `npm run lint:context`)
-- [ ] infra/ (reviewed the cargo plan comment below before merging)
-- [ ] .agents/skills/
-- [ ] evals/ (required if a system prompt changed)
-- [ ] scripts/
-- [ ] outputs/ (an execution: checked its "Runs once" row in the plan comment)
+**You decide:** the one question only the reviewer can answer.
+**After merging, by hand:** who does what, naming anyone outside the team.
 
-## Observed vs concluded
+## Why
 
-<!-- For context changes: what did you observe (calls, deals, runs), and what
-are you concluding from it? A claim needs two independent observations. -->
+<!-- At most three sentences: why this change is right. For a context change,
+     what you observed and what you conclude: a claim needs two independent
+     observations. -->
+
+## Detail
+
+<!-- Anything else: evidence, files, what you tried. Optional. -->

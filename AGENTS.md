@@ -123,10 +123,18 @@ that writes copy without reading `context/` will sound like a generic bot.
 1. Change `context/` or `infra/` on a branch. Before opening the PR, run
    `npm run lint` if you touched any prose, and `npm run typecheck` if you
    touched `infra/` or `scripts/`. Both also run in CI.
-2. Cargo plans the pull request and posts the diff as a comment and a check,
+2. Write the pull request for someone who reads only its title and
+   description (`.github/PULL_REQUEST_TEMPLATE.md`): the title says what it
+   does, the description opens with one sentence on what happens if they
+   approve, then the one decision only they can make and anything a person
+   must still do by hand, each only when there is one. Then `## Why`, at most
+   three sentences, and `## Detail` for everything else. Never restate what
+   merging deploys, runs or sends: Cargo's plan says it, and a sentence
+   written from habit can be wrong.
+3. Cargo plans the pull request and posts the diff as a comment and a check,
    once the repository is connected to the workspace (Settings > States).
    Review it the way you would review a terraform plan.
-3. Merging to main deploys. Never run `cargo-ai cdk deploy` locally against
+4. Merging to main deploys. Never run `cargo-ai cdk deploy` locally against
    production. Local deploy is denied by convention and hard-blocked per agent:
    Claude Code (`.claude/settings.json`), Cursor
    (`.cursor/rules/manifest-guardrails.mdc`), and Codex (`.codex/config.toml`
