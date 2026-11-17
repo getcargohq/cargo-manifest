@@ -12,9 +12,11 @@ permissions:
 
 jobs:
   # Bumps @cargo-ai/cli and @cargo-ai/cdk to latest, proves the repo still
-  # typechecks against them, and opens a single PR. The branch name is stable,
-  # so a run that finds a newer version force-pushes onto the open PR instead
-  # of stacking a second one.
+  # typechecks and lints against them, then opens a PR and merges it. The PR
+  # is the record of what changed; the checks in this run are the gate, since
+  # GitHub fires no `pull_request` workflows for a PR the default token opens.
+  # Every `cargo-ai project init` scaffolds from main, so a bump left waiting
+  # for review leaves new projects on the old toolchain.
   update:
     runs-on: ubuntu-latest
     env:
@@ -54,7 +56,11 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         run: npm run typecheck
 
-      - name: open the PR
+      - name: lint
+        if: steps.diff.outputs.changed == 'true'
+        run: npm run lint
+
+      - name: open and merge the PR
         if: steps.diff.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
@@ -70,12 +76,8 @@ jobs:
           git commit -m "Bump @cargo-ai/cli to ${CLI} and @cargo-ai/cdk to ${CDK}"
           git push --force --set-upstream origin "$BRANCH"
 
-          if [ -n "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')" ]; then
-            echo "Refreshed the open PR for $BRANCH." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-
-          cat > /tmp/body.md <<EOF
+          if [ -z "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')" ]; then
+            cat > /tmp/body.md <<EOF
           Scheduled bump of the Cargo toolchain.
 
           | Package | Version |
@@ -83,12 +85,17 @@ jobs:
           | \`@cargo-ai/cli\` | ${CLI} |
           | \`@cargo-ai/cdk\` | ${CDK} |
 
-          \`npm run typecheck\` passed against these versions in the run that
-          opened this PR. GitHub does not fire \`pull_request\` workflows for a
-          PR opened with the default token, so the checks below stay empty:
-          that in-workflow typecheck is the gate. Merging to main deploys.
+          \`npm run typecheck\` and \`npm run lint\` passed against these versions
+          in the run that opened this PR, which merges it right after. GitHub
+          does not fire \`pull_request\` workflows for a PR opened with the
+          default token, so the checks below stay empty: the run is the gate.
+          Merging to main deploys.
           EOF
 
-          gh pr create --base main --head "$BRANCH" \
-            --title "Bump @cargo-ai/cli and @cargo-ai/cdk" \
-            --body-file /tmp/body.md
+            gh pr create --base main --head "$BRANCH" \
+              --title "Bump @cargo-ai/cli and @cargo-ai/cdk" \
+              --body-file /tmp/body.md
+          fi
+
+          gh pr merge "$BRANCH" --merge --delete-branch
+          echo "Merged @cargo-ai/cli ${CLI} and @cargo-ai/cdk ${CDK} into main." >> "$GITHUB_STEP_SUMMARY"
